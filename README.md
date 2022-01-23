@@ -12,7 +12,7 @@ sudo apt update
 sudo apt install mono-runtime mono-vbnc
 ```
 
-Download and compile the source with Visual Studio or download the realease zip file and extract the SMADOTNET.dll and SMAReader.exe files.
+Download and compile the source with Visual Studio or download the realease https://github.com/tom-2015/SMA.NET/releases/download/v1.0/SMAReader.zip zip file and extract the SMADOTNET.dll and SMAReader.exe files.
 On Windows you can just run the SMAReader.exe from the command line, in Linux/Raspberry Pi start the executable with mono.
 
 ```
