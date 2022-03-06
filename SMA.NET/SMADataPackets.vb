@@ -9,6 +9,7 @@ Public MustInherit Class SMADataPacket
     Protected m_Complete As Boolean = False 'set true when packet receive completed
     Protected m_Telegram As SMATelegram
 
+
     Public Sub New(ByVal Telegram As SMATelegram)
         m_Telegram = Telegram
     End Sub
@@ -112,6 +113,7 @@ Public Class SMAChannelValuesPacket
     Public Property Phase As Byte
     Public Property ErrNr As Byte
 
+
     Public Sub New(ByVal Telegram As SMATelegram)
         MyBase.New(Telegram)
     End Sub
@@ -162,6 +164,42 @@ Public Class SMAChannelValuesPacket
 
     End Sub
 
+    Public Sub Reset()
+        ChannelType = 0
+        Channelindex = 0
+        Records = 0
+        Time = 0
+        Timebase = 0
+        Upv = 0
+        Upvn = 0
+        Iac = 0
+        Iacn = 0
+        Uac = 0
+        Fac = 0
+        Pac = 0
+        Zac = 0
+        DZac = 0
+        Riso = 0
+        UacSrr = 0
+        FacSrr = 0
+        ZacSrr = 0
+        IZac = 0
+        Ipv = 0
+        unknown3 = 0
+        unknown4 = 0
+        unknown5 = 0
+        unknown6 = 0
+        RippleCtrlFreq = 0
+        ETotal = 0
+        HTotal = 0
+        HourOn = 0
+        PowerOn = 0
+        unknown10 = 0
+        Serial = 0
+        Status = 0
+        Phase = 0
+        ErrNr = 0
+    End Sub
 
     Public Overrides Function ToString() As String
 

@@ -20,27 +20,30 @@ Public Class PPPPacket
     ''' <param name="PPPFrame"></param>
     Public Sub New(ByVal PPPFrame As Byte())
 
-        If PPPFrame(0) = PPPStartEnd AndAlso PPPFrame(PPPFrame.Length - 1) = PPPStartEnd Then
+        If PPPFrame.Length > 2 Then
+            If PPPFrame(0) = PPPStartEnd AndAlso PPPFrame(PPPFrame.Length - 1) = PPPStartEnd Then
 
-            Dim EscapedData As Byte()
-            ReDim EscapedData(0 To PPPFrame.Length - 3)
-            Array.Copy(PPPFrame, 1, EscapedData, 0, PPPFrame.Length - 2)
+                Dim EscapedData As Byte()
+                ReDim EscapedData(0 To PPPFrame.Length - 3)
+                Array.Copy(PPPFrame, 1, EscapedData, 0, PPPFrame.Length - 2)
 
-            Dim UnescapedData As Byte() = PPPUnEscape(EscapedData)
-            Dim Reader As New BinaryReader(New MemoryStream(UnescapedData))
+                Dim UnescapedData As Byte() = PPPUnEscape(EscapedData)
+                Dim Reader As New BinaryReader(New MemoryStream(UnescapedData))
 
-
-            m_Address = Reader.ReadByte()
-            m_Control = Reader.ReadByte()
-            m_Protocol = Reader.ReadUInt16()
-            Dim UserDataLength As Integer = UnescapedData.Length - 1 - 1 - 2 - 2
-            If UserDataLength > 0 Then
-                m_UserData = Reader.ReadBytes(UserDataLength)
-            Else
-                m_UserData = {}
+                If UnescapedData.Length > 6 Then
+                    m_Address = Reader.ReadByte()
+                    m_Control = Reader.ReadByte()
+                    m_Protocol = Reader.ReadUInt16()
+                    Dim UserDataLength As Integer = UnescapedData.Length - 1 - 1 - 2 - 2
+                    If UserDataLength > 0 Then
+                        m_UserData = Reader.ReadBytes(UserDataLength)
+                    Else
+                        m_UserData = {}
+                    End If
+                    m_CheckSum = BitConverter.ToUInt16(Reader.ReadBytes(2).Reverse().ToArray(), 0)
+                    m_Valid = m_CheckSum = CalculateChecksum()
+                End If
             End If
-            m_CheckSum = BitConverter.ToUInt16(Reader.ReadBytes(2).Reverse().ToArray(), 0)
-            m_Valid = m_CheckSum = CalculateChecksum()
         End If
     End Sub
 
